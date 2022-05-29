@@ -1,0 +1,229 @@
+% Exam Template for UMTYMP and Math Department courses
+%
+% Using Philip Hirschhorn's exam.cls: http://www-math.mit.edu/~psh/#ExamCls
+%
+% run pdflatex on a finished exam at least three times to do the grading table on front page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% These lines can probably stay unchanged, although you can remove the last
+% two packages if you're not making pictures with tikz.
+\documentclass[11pt]{exam}
+\RequirePackage{amssymb, amsfonts, amsmath, latexsym, verbatim, xspace, setspace}
+\RequirePackage{tikz, pgflibraryplotmarks}
+
+% By default LaTeX uses large margins.  This doesn't work well on exams; problems
+% end up in the "middle" of the page, reducing the amount of space for students
+% to work on them.
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{float}
+\renewcommand{\theenumi}{\alph{enumi}}
+% Here's where you edit the Class, Exam, Date, etc.
+\newcommand{\class}{Xử lý Tín hiệu số}
+\newcommand{\term}{Học kỳ Xuân 2022}
+\newcommand{\hwnum}{Bài tập 3}
+\newcommand{\hwduedate}{Hạn nộp: 11h59PM - 29/05/2022}
+% \newcommand{\examdate}{Hạn nộp}
+% \newcommand{\timelimit}{180 Minutes}
+
+% For an exam, single spacing is most appropriate
+\singlespacing
+% \onehalfspacing
+% \doublespacing
+
+% For an exam, we generally want to turn off paragraph indentation
+\parindent 0ex
+
+\begin{document} 
+
+% These commands set up the running header on the top of the exam pages
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\hwnum\ --- Trang \thepage\ / \numpages}{\hwduedate}
+\runningheadrule
+
+\begin{flushright}
+\begin{tabular}{p{2.8in} r l}
+\textbf{\class} & \textbf{Sinh viên:} &  \textit{Ngô Phù Hữu Đại Sơn}\\
+\textbf{\term}, \textbf{\hwnum} &  \textbf{Mã số:} & \textit{18120078}\\
+% \textbf{\hwnum} \\
+\textbf{\hwduedate} 
+\end{tabular}\\
+\end{flushright}
+\rule[1ex]{\textwidth}{.1pt}
+
+
+
+% Chúc bạn may mắn
+% \newpage % End of cover page
+
+
+\begin{questions}
+
+\question Câu 7.3
+    \begin{parts}
+        \part $ x(t) = 1 + cos(2000\pi t) + sin(4000\pi t) $ \\
+        Ta có: \\
+            $X(j \omega) = 0 $ khi $ |\omega| > 4000\pi$ \\
+            $ \Rightarrow \omega_N = 2(4000\pi) = 8000\pi$
+        \part $ x(t) = \frac{sin(4000\pi t)}{\pi t} $ \\
+        Ta có: \\
+            $X(j\omega)=\frac{1}{4000\pi}rect(\frac{j\omega}{4000\pi}) = 0 $ khi $|\omega| > 4000\pi$ \\
+            $ \Rightarrow \omega_N = 2(4000\pi) = 8000\pi$
+        \part $ x(t) = \left(\frac{sin(4000\pi t)}{\pi t}\right)^2 $  \\
+        Ta có thể thấy $X(j\omega)$ là tích của 2 hàm rect nên $X(j\omega)$ có dạng hàm tri có giá trị bằng 0 với $|\omega| > 8000\pi$ \\
+        $ \Rightarrow \omega_N = 2(8000\pi) = 16000\pi$
+    \end{parts}
+
+\question Câu 7.7 \\
+    Ta có:
+        \begin{equation*}
+            x_1(t) = h_1(t) \ast \left[ \sum_{n=-\infty}^{\infty}{x(nT)\delta(t - nT)} \right]
+        \end{equation*}
+    Và: 
+        \begin{equation*}
+            x_0(t) = h_0(t) \ast \left[ \sum_{n=-\infty}^{\infty}{x(nT)\delta(t - nT)} \right]
+        \end{equation*}
+    Thực hiện Fourier Transform cho 2 phương trình trên ta được:
+        \begin{equation*}
+            \begin{cases}
+                X_1(j\omega) = H_1(j\omega)X(j\omega) \\
+                X_0(j\omega) = H_0(j\omega)X(j\omega)
+            \end{cases}
+        \end{equation*}
+    Ta cần tìm một hàm tiếp ứng xung $H_d(j\omega)$ thỏa:
+        \begin{equation*}
+            X_0(j\omega)H_d(j\omega)X_1(j\omega)
+        \end{equation*}
+    Ta có:
+        $ h_1(j\omega) $ có dạng hàm tri còn hàm $ h_0(j\omega) $ có dạng hàm rect, nên ta có được mối liên hệ giữa chúng như sau:
+        \begin{equation*}
+            h_1(t) = \left\lbrace\frac{1}{\sqrt(T)}h_0(t+\frac{T}{2})\right\rbrace \ast \left\lbrace\frac{1}{\sqrt(T)}h_0(t+\frac{T}{2})\right\rbrace
+        \end{equation*}
+    Biến đổi FT, ta có:
+        \begin{equation*}
+            H_1(t) = \frac{1}{T}e^{j\omega T}(H_0(j\omega))^2
+        \end{equation*}
+    Mà:
+        \begin{equation*}
+            \begin{aligned}
+                X_1(j\omega) &= H_1(j\omega)X(j\omega) \\
+                            &= \frac{1}{T}e^{j\omega T}(H_0(j\omega))^2X(j\omega) \\
+                            &= \frac{1}{T}e^{j\omega t}H_0(j\omega)X(j\omega)
+            \end{aligned}
+        \end{equation*}
+    Vậy:
+        \begin{equation*}
+            H_d(j\omega) = \frac{1}{T}e^{j\omega T}H_0(j\omega) = \frac{1}{T}e^{j\omega T/2}\left\lbrace e^{j\omega T/2}H_0(j\omega)\right\rbrace = e^{j\omega T/2}\frac{1}{T}Tsinc(\frac{\omega T}{2}) = e^{j\omega T/2}\frac{2sin(\omega T)}{\omega T}
+        \end{equation*}
+\question Câu 7.8 \\
+
+\question Câu 7.21 \\
+    \begin{parts}
+        \part $N_{\omega} = 2(5000\pi) = 10000\pi \Rightarrow T_{max} = \frac{2\pi}{10000\pi} > T = 10^{-4}$ \\
+        Vậy có thể khôi phục lại được x(t).
+        \part $N_{\omega} = 2(15000\pi) = 30000\pi \Rightarrow T_{max} = \frac{2\pi}{30000\pi} < T = 10^{-4}$ \\
+        Vậy không thể khôi phục lại được x(t)
+        \part Do $\mathcal{I}m(X(j\omega)) $ không xác định nên ta không thể tìm được $N_{\omega}$ của $x(t)$. \\
+        Vì vậy không thể đảm bảo có thể phục hồi được x(t) với $T = 10^{-4}$ 
+        \part Tương tự câu a
+        Vậy có thể khôi phục lại được x(t).
+        \part Tương tự câu b
+        Vậy không thể khôi phục lại được x(t)
+        \part Ta có $X(j\omega) = 0$ khi $|\omega| > 7500\pi \Rightarrow N_{\omega} = 15000\pi \Rightarrow T_{max} = \frac{2\pi}{15000\pi} > T = 10^{-4}$ \\
+        Vậy có thể khôi phục lại được x(t)
+        \part $|X(j\omega)| = 0$ khi $|\omega| > 5000\pi \Rightarrow X(j\omega) = 0$ khi $|\omega| > 5000\pi$\\
+        Vậy tương tự câu a, ta có thể khôi phục được x(t)
+    \end{parts}
+\question Câu 7.22 \\
+    Thực hiện Fourier Transform lên phương trình, ta có:
+    \begin{equation*}
+        Y(j\omega) = X_1(j\omega)X_2(j\omega)
+    \end{equation*}
+    Do đó, $Y(j\omega) = 0$ khi $|\omega| > 1000\pi \Rightarrow N_{\omega} = 2000\pi \Rightarrow T_{max} = \frac{2\pi}{2000\pi} = 10^{-3}$ \\
+    Vậy, sử dụng hàm impulse train với tần số $T < 10^{-3}$ thì có thể khôi phục lại được y(t)
+\question Câu 7.24 \\
+    Đặt $\hat{s}(t) = s(t) - 1$ \\
+    Do đó, Fourier Transform của $\hat{s}(t)$ có thể dễ dàng thầy được như sau:
+    \begin{equation*}
+        \hat{S}(j\omega) = \sum_{k = -\infty}^{\infty}{\frac{4sin(2\pi k\Delta/T)}{k}\delta(\omega - k2\pi/T)}
+    \end{equation*}
+    Từ đó, ta có:
+    \begin{equation*}
+        \begin{aligned}
+            S(j\omega) &= \hat{S}(j\omega) - 2\pi\delta(\omega) \\
+            &= \sum_{k = -\infty}^{\infty}{\frac{4sin(2\pi k\Delta/T)}{k}\delta(\omega - k2\pi/T)} - 2\pi\delta(\omega)
+        \end{aligned}
+    \end{equation*}
+    Do $w(t) = s(t)x(t) \Rightarrow W(j\omega) = S(j\omega)X(j\omega)$ \\
+    \begin{parts}
+        \part Với $\Delta = \frac{T}{3}$ 
+        \begin{equation*}
+            S(j\omega) = \sum_{k = -\infty}^{\infty}{\frac{4sin(2\pi k/3)}{k}\delta(\omega - k2\pi/T)} - 2\pi\delta(\omega)
+        \end{equation*}
+        Ta có thể thấy $W(j\omega)$ sẽ là lặp lại của $X(j\omega)$ với khoảng cách giữa mỗi đoạn lặp lại là $2\pi/T$
+        Do đó, $\omega_M$ không được nhỏ hơn $\pi/T \Rightarrow T_{max} = \pi/\omega_M$
+
+        \part Với $\Delta = \frac{T}{4}$ 
+        \begin{equation*}
+            S(j\omega) = \sum_{k = -\infty}^{\infty}{\frac{4sin(2\pi k/4)}{k}\delta(\omega - k2\pi/T)} - 2\pi\delta(\omega)
+        \end{equation*}
+        Có thể thấy $S(j\omega) = 0$ khi $k = 0, \pm 2, \pm 4,... $, do đó, $X(j\omega)$ lặp lại trong $W(j\omega)$ với khoảng cách tăng lên lên đến $4\pi/T$
+        Do đó, $\omega_M$ không được nhỏ hơn $2\pi/T \Rightarrow T_{max} = 2\pi/\omega_M$
+    \end{parts}
+
+\question Câu 7.25 \\
+    Ta có thể biểu diễn $x_r(kT)$ như sau:
+    \begin{equation*}
+        x_r(kT) = \sum_{n=-\infty}^{\infty}{x(nT)\frac{sin\left[\pi(k-n)\right]}{\pi(k-n)}}
+    \end{equation*}
+    Có thể thấy:
+    \begin{equation*}
+        \frac{sin\left[\pi(k-n)\right]}{\pi(k-n)} = 
+        \begin{cases}
+            0, & k \neq n \\
+            1, & k = n
+        \end{cases}
+    \end{equation*}
+    Do đó:
+    \begin{equation*}
+        x_r(kT) = x(kT)
+    \end{equation*}
+
+\question Câu 7.26 \\
+    Ta có thể thấy khi tần số lấy mẫu tăng, giá trị $2\pi/T - \omega_2$ sẽ tiến về 0.
+
+\question Câu 7.27 \\
+\question Câu 7.36 \\
+    Ta có:
+    \begin{equation*}
+        x_p(t) = \sum_{n=-\infty}^{\infty}{x(nT)\delta(t - nT)}
+    \end{equation*}
+    Với $N_\omega =\frac{2\pi}{T}$, ta có thể phục hồi được tín hiệu gốc như sau:
+    \begin{equation*}
+        x(T) = x_p(t) \ast h(t)
+    \end{equation*}
+    Với:
+    \begin{equation*}
+        h(t) = \frac{sin(\pi t/T)}{\pi t/T}
+    \end{equation*}
+    Do đó,
+    \begin{equation*}
+        \frac{dx(t)}{dt}=x_p(t) \ast \frac{dh(t)}{dt}
+    \end{equation*}
+    Đặt $g(t) = \frac{dh(t)}{dt}$, ta có:
+    \begin{equation*}
+        \frac{dx(t)}{dt}=x_p(t) \ast g(t) = \sum_{n=-\infty}^{\infty}{x(nT)g(t - nT)}
+    \end{equation*}
+    Vậy:
+    \begin{equation*}
+        g(t) = \frac{dh(t)}{dt} = \frac{cos(\pi t/T)}{t} - \frac{Tsin(\pi t/T)}{\pi t^2}
+    \end{equation*}
+
+\end{questions}
+
+\end{document}
